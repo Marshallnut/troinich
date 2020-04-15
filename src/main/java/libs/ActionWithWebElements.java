@@ -1,72 +1,72 @@
 package libs;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class ActionWithWebElements {
-    WebDriver webDriver;
-    Logger logger = Logger.getLogger (getClass());
 
-    public ActionWithWebElements (WebDriver webDriver) {
+    WebDriver webDriver;
+    Logger logger = Logger.getLogger(getClass());
+
+    public ActionWithWebElements(WebDriver webDriver) {
         this.webDriver = webDriver;
     }
-    public void enterTextToTextField (By element, String text) {
-    try {
-        webDriver.findElement(element).clear();
-        webDriver.findElement(element).sendKeys(text);
-        logger.info("");
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-        logger.error("");
-    }
-    public void clickButton (By element) {
+
+    public void enterTextToTextFields(WebElement element, String text) {
         try {
-            webDriver.findElement (element).click ();
-            logger.info ("");
-        }
-        catch (Exception e) {
-            e.printStackTrace ();
-            logger.error ("");
+            element.clear();
+            element.sendKeys(text);
+            logger.info("Field was filled ..");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Something went wrong");
         }
     }
-    public boolean isElementDisplay (By element) {
+
+    public void clickButton(WebElement element) {
         try {
-            return webDriver.findElement (element).isDisplayed());
+            element.click();
+            logger.info("Clicked ..");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Something went wrong");
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            logger.error ("");
+    }
+
+    public boolean isElementDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Something went wrong");
             return false;
         }
     }
-    public void SetCheckBox (By element, boolean state) {
-        try {
-            if (webDriver.findElement (element).isSelected () == state) {
-            }
-            else {
-                webDriver.findElement (element).click();
-            }
-            logger.info ("The check box is"+state);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            logger.error ("");
 
-        }
-    }
-    private void selectElementFromDD (By element, String itemName) {
-        Select dropDownValue = new Select (webDriver.findElement (element));
+    public void setCheckBox(WebElement element, boolean state) {
         try {
-            dropDownValue.selectByVisibleText (itemName);
-        }
-        catch (Exception ex) {
-            ex.printStackTrace ();
-            logger.error ("");
+            if (element.isSelected() != state) {
+                element.click();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Something went wrong");
         }
     }
+    //подсчитывает общее количество работников, что на странице "Workers". Использовала "tr" вместо "cssSelector"
+    public int countNumbersRows(SearchContext table) {
+        try {
+            List<WebElement> rows = table.findElements(By.tagName("tr"));
+            return rows.size()-1;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Can`t count table rows");
+            return -1;
+        }
     }
 }
