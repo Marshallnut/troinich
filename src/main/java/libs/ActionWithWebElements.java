@@ -5,6 +5,8 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -12,13 +14,17 @@ public class ActionWithWebElements {
 
     WebDriver webDriver;
     Logger logger = Logger.getLogger(getClass());
+    WebDriverWait webDriverWait10, webDriverWait15;
 
     public ActionWithWebElements(WebDriver webDriver) {
         this.webDriver = webDriver;
+        webDriverWait10 = new WebDriverWait(webDriver,10);
+        webDriverWait15 = new WebDriverWait(webDriver, 15);
     }
 
     public void enterTextToTextFields(WebElement element, String text) {
         try {
+            webDriverWait10.until(ExpectedConditions.visibilityOf(element));
             element.clear();
             element.sendKeys(text);
             logger.info("Field was filled ..");
@@ -30,6 +36,7 @@ public class ActionWithWebElements {
 
     public void clickButton(WebElement element) {
         try {
+            webDriverWait10.until(ExpectedConditions.visibilityOf(element));
             element.click();
             logger.info("Clicked ..");
         } catch (Exception ex) {

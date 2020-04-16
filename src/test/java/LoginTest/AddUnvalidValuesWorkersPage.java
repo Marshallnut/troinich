@@ -6,7 +6,7 @@ import org.junit.Test;
 //негативный тесткейс: работник не добавлен в таблицу и видно, что логконтроль срабатывает в поле, но тест "якобы" пройден
 public class AddUnvalidValuesWorkersPage extends AbstractParentTest  {
     @Test
-    public void validAddWorker() {
+    public void unvalidAddWorker() {
         loginPage.openPageLogin();
         loginPage.loginToPage("Student", "909090");
         workersPage.openPage();

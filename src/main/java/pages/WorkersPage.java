@@ -25,6 +25,10 @@ public class WorkersPage extends ParentPage  {
     private WebElement studentMenu;
     @FindBy (xpath = "//div[@class='pull-right']//a[@class='btn btn-default btn-flat']")
     private WebElement exitButton;
+    @FindBy (xpath = "//tr[186]//td[1]")
+    private WebElement changeValue;
+    @FindBy (xpath = "//button[@name='save']")
+    private WebElement saveButton;
 
     public WorkersPage (WebDriver webDriver) {
         super(webDriver);
@@ -61,6 +65,11 @@ public class WorkersPage extends ParentPage  {
         public void clickCreateButton() {
             actionsElements.clickButton(createWorkerButton);
         }
+
+        public void clickRowWorker () {actionsElements.clickButton(changeValue);}
+
+        public void clickSaveButton () {actionsElements.clickButton(saveButton);}
+
         //добавляю нового работника на странице WorkersPage
         public void addNewWorker(String workerSurnameName, String workerNameName, String workerMiddleNameName, String workerPhoneName)
         {
@@ -71,6 +80,15 @@ public class WorkersPage extends ParentPage  {
             fillWorkerPhone(workerPhoneName);
             clickCreateButton();
         }
+     //изменить данные добавленого мною ранее работника
+     public void changeValuesWorker (String workerNameName, String workerMiddleNameName, String workerPhoneName)
+     {
+         clickRowWorker();
+         fillWorkerName(workerNameName);
+         fillWorkerMiddleName(workerMiddleNameName) ;
+         fillWorkerPhone(workerPhoneName);
+         clickSaveButton();
+     }
 
     //узнаю общее количество работников, которые были добавлены на страницу
     public int workersAmount() { return actionsElements.countNumbersRows(webDriver) ;}
